@@ -1371,7 +1371,7 @@
                             <div class="ratio" style="--ratio-percent: 25.875000000000004%">
                                 <img src="https://gongjatiluwih.com/wp-includes/images/kenahoki-logo-hd.png" loading="lazy"
                                     class="header__heading-logo company_logo" width="800" height="207"
-                                    alt="kenahoki logo slot gacor hoki" referrerpolicy="no-referrer"
+                                    alt="kenahoki logo slot dana gacor hoki" referrerpolicy="no-referrer"
                                     style="object-fit: contain; width: 100%; height: 100%;">
                             </div>
                         </a>
@@ -2605,7 +2605,7 @@
                                         </p>
                                         <a href="https://gongjatiluwuh.pages.dev/" aria-label="Daftar sekarang">
                                             <img src="https://gongjatiluwih.com/wp-includes/images/klik.png"
-                                                alt="login kenahoki situs slot dana deposit 5k" class="price-segment-discount-image" />
+                                                alt="login situs kenahoki" class="price-segment-discount-image" />
                                         </a>
 
                                         <small class="unit-price caption hidden">
