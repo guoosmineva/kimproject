@@ -8754,7 +8754,7 @@
                                     </ul>
                                 </div>
                                 <div class="copyrightCss footer__copyright caption">
-                                    <span class="copyright__content">&copy; 2025, <a href="Powered by Shopify"
+                                    <span class="copyright__content">&copy; 2025, <a href="https://gongjatiluwih.com/"
                                             title="">SLOT DANA</a></span>
                                     <span class="copyright__content">Powered By KENAHOKI</span>
                                 </div>
